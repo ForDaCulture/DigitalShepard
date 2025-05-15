@@ -1,33 +1,48 @@
-FROM python:3.11-slim
-
+#################################
+# Stage 1: Builder
+#################################
+FROM python:3.12.8-slim AS builder
 WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
+# Install OS tools + Python build backends
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
     build-essential \
     libpq-dev \
     gcc \
     python3-dev \
-    && rm -rf /var/lib/apt/lists/*
+    python3-setuptools \
+    python3-wheel \
+ && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements first for better caching
+# Copy & install Python deps
 COPY requirements.txt .
+RUN pip install --upgrade pip setuptools wheel \
+ && pip install --no-cache-dir --prefer-binary -r requirements.txt
 
-# Upgrade pip and install dependencies with verbose output
-RUN pip install --upgrade pip && \
-    pip install --no-cache-dir --verbose -r requirements.txt
-
-# Copy application code
+# Copy source code
 COPY . .
 
+#################################
+# Stage 2: Production
+#################################
+FROM python:3.12.8-slim AS production
+WORKDIR /app
+
+# Only need the Postgres client at runtime
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends libpq-dev \
+ && rm -rf /var/lib/apt/lists/*
+
+# Copy installed packages & app code from builder
+COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
+COPY --from=builder /app /app
+
 # Create non-root user
-RUN useradd -m -u 1000 appuser && \
-    chown -R appuser:appuser /app
+RUN useradd -m -u 1000 appuser \
+ && chown -R appuser:appuser /app
 USER appuser
 
-# Expose port 8000
+# Expose and run
 EXPOSE 8000
-
-# Start the application
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"] 
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

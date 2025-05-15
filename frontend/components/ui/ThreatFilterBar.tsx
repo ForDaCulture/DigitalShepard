@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from './button';
+import { Button } from './Button';
 import { motion } from 'framer-motion';
 
 interface ThreatFilterBarProps {
@@ -67,7 +67,7 @@ export function ThreatFilterBar({ onFilterChange }: ThreatFilterBarProps) {
               <Button
                 key={severity}
                 size="sm"
-                variant={filters.severity.includes(severity) ? 'default' : 'outline'}
+                variant={filters.severity.includes(severity) ? 'primary' : 'outline'}
                 onClick={() => handleFilterChange('severity', severity)}
               >
                 {severity.charAt(0).toUpperCase() + severity.slice(1)}
@@ -83,7 +83,7 @@ export function ThreatFilterBar({ onFilterChange }: ThreatFilterBarProps) {
               <Button
                 key={category}
                 size="sm"
-                variant={filters.category.includes(category) ? 'default' : 'outline'}
+                variant={filters.category.includes(category) ? 'primary' : 'outline'}
                 onClick={() => handleFilterChange('category', category)}
               >
                 {category.split('_').map(word => 
@@ -101,7 +101,7 @@ export function ThreatFilterBar({ onFilterChange }: ThreatFilterBarProps) {
               <Button
                 key={option.value}
                 size="sm"
-                variant={filters.dateRange === option.value ? 'default' : 'outline'}
+                variant={filters.dateRange === option.value ? 'primary' : 'outline'}
                 onClick={() => handleFilterChange('dateRange', option.value)}
               >
                 {option.label}

@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-hot-toast';
 import { ThreatCard, type Threat } from '@/components/ui/ThreatCard';
 import { ThreatFilterBar, type ThreatFilters } from '@/components/ui/ThreatFilterBar';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/Button';
 
 // Simulated API call - replace with your actual API endpoint
 const fetchThreats = async (filters: ThreatFilters): Promise<Threat[]> => {

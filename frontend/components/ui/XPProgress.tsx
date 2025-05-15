@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Progress } from './progress';
+import { Progress } from './Progress';
 
 interface XPProgressProps {
   currentXP: number;

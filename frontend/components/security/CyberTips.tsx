@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Card } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/Card';
+import { Progress } from '@/components/ui/Progress';
+import { Badge } from '@/components/ui/Badge';
+import { Button } from '@/components/ui/Button';
 import { Trophy, Star, Shield, AlertTriangle } from 'lucide-react';
 import { useUserXP } from '@/lib/contexts/UserXPContext';
 import axios from 'axios';

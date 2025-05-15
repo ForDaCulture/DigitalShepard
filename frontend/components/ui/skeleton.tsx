@@ -1,24 +1,95 @@
 'use client';
 
-import * as React from "react";
-import { cn } from "@/lib/utils";
+import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
 
-interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
+interface SkeletonProps {
   className?: string;
-  shimmer?: boolean;
 }
 
-export function Skeleton({ className, shimmer = true, ...props }: SkeletonProps) {
+export function Skeleton({ className }: SkeletonProps) {
+  return (
+    <motion.div
+      initial={{ opacity: 0.5 }}
+      animate={{ opacity: 1 }}
+      transition={{
+        duration: 1,
+        repeat: Infinity,
+        repeatType: 'reverse',
+      }}
+      className={cn(
+        'rounded-md bg-background/50',
+        className
+      )}
+    />
+  );
+}
+
+interface SkeletonTextProps {
+  lines?: number;
+  className?: string;
+}
+
+export function SkeletonText({ lines = 3, className }: SkeletonTextProps) {
+  return (
+    <div className={cn('space-y-2', className)}>
+      {Array.from({ length: lines }).map((_, index) => (
+        <Skeleton
+          key={index}
+          className={cn(
+            'h-4',
+            index === lines - 1 ? 'w-2/3' : 'w-full'
+          )}
+        />
+      ))}
+    </div>
+  );
+}
+
+interface SkeletonAvatarProps {
+  size?: 'sm' | 'md' | 'lg';
+  className?: string;
+}
+
+const sizeStyles = {
+  sm: 'h-8 w-8',
+  md: 'h-12 w-12',
+  lg: 'h-16 w-16',
+};
+
+export function SkeletonAvatar({ size = 'md', className }: SkeletonAvatarProps) {
+  return (
+    <Skeleton
+      className={cn(
+        'rounded-full',
+        sizeStyles[size],
+        className
+      )}
+    />
+  );
+}
+
+interface SkeletonCardProps {
+  className?: string;
+}
+
+export function SkeletonCard({ className }: SkeletonCardProps) {
   return (
     <div
       className={cn(
-        "rounded-md bg-gray-200 dark:bg-gray-800",
-        shimmer && "animate-pulse relative overflow-hidden",
-        shimmer && "before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent",
+        'rounded-lg border border-background bg-background p-4',
         className
       )}
-      {...props}
-    />
+    >
+      <div className="space-y-3">
+        <Skeleton className="h-4 w-3/4" />
+        <SkeletonText lines={2} />
+        <div className="flex items-center gap-2">
+          <SkeletonAvatar size="sm" />
+          <Skeleton className="h-4 w-1/4" />
+        </div>
+      </div>
+    </div>
   );
 }
 

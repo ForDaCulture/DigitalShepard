@@ -1,5 +1,5 @@
-import { Card, CardHeader, CardContent, CardFooter } from '../ui/card'
-import { Badge } from '../ui/badge'
+import { Card, CardHeader, CardContent, CardFooter } from '../ui/Card'
+import { Badge } from '../ui/Badge'
 import { AlertTriangle, Shield, Clock } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 

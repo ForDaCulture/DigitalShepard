@@ -35,6 +35,14 @@ module.exports = {
           800: '#075985',
           900: '#0c4a6e',
         },
+        // Theme colors
+        background: '#0F172A', // navy-blue
+        primary: '#14B8A6',    // teal
+        highlight: '#F97316',  // orange
+        text: {
+          DEFAULT: '#F8FAFC',  // white
+          muted: '#94A3B8',    // light gray
+        },
         // Threat severity colors
         threat: {
           low: '#22c55e',    // green-500
@@ -42,23 +50,10 @@ module.exports = {
           high: '#ef4444',    // red-500
           critical: '#7c3aed', // violet-600
         },
-        // Dark mode colors
-        dark: {
-          100: '#1e1e1e',
-          200: '#2d2d2d',
-          300: '#3d3d3d',
-          400: '#4d4d4d',
-          500: '#5d5d5d',
-        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
@@ -91,6 +86,7 @@ module.exports = {
         'scale': 'scale 0.2s ease-in-out',
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
       keyframes: {
         fadeIn: {

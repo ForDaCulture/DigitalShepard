@@ -1,9 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Badge } from './badge';
-import { Button } from './button';
-import { Progress } from './progress';
+import { Badge } from './Badge';
+import { Button } from './Button';
+import { Progress } from './Progress';
 
 export interface Threat {
   id: string;

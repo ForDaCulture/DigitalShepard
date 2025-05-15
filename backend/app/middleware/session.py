@@ -3,6 +3,8 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from datetime import datetime, timedelta
 from typing import Dict
 import time
+from starlette.middleware.sessions import SessionMiddleware
+import os
 
 class SessionTimeoutMiddleware(BaseHTTPMiddleware):
     def __init__(
@@ -50,8 +52,9 @@ class SessionTimeoutMiddleware(BaseHTTPMiddleware):
         return response
 
 def setup_session_middleware(app: FastAPI, timeout_minutes: int = 15):
-    """Add session timeout middleware to FastAPI app."""
+    secret_key = os.getenv("SECRET_KEY", "your-secret-key-here")
     app.add_middleware(
-        SessionTimeoutMiddleware,
-        timeout_minutes=timeout_minutes
+        SessionMiddleware,
+        secret_key=secret_key,
+        max_age=timeout_minutes * 60  # Convert minutes to seconds
     ) 

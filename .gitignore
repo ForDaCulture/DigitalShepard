@@ -21,3 +21,39 @@ venv/
 # Node modules
 frontend/node_modules/
 node_modules/
+# Local env & secrets
+.env
+.env.*                  # .env.local, .env.development, etc.
+
+# Docker overrides
+docker-compose.override.yml
+
+# OS/nightly artifacts
+.DS_Store
+# Next.js build output
+.next/
+out/
+
+# Production build outputs (if you ever use "npm run export" or similar)
+dist/
+build/
+
+# Python test & coverage
+.pytest_cache/
+.coverage
+coverage/
+htmlcov/
+
+# MyPy & other caches
+.mypy_cache/
+__pycache__/
+*.py[cod]
+pip-wheel-metadata/
+
+# npm / yarn logs
+npm-debug.log*
+yarn-error.log*
+
+# Optional lockfile if you don’t want to commit it
+# package-lock.json
+# yarn.lock
