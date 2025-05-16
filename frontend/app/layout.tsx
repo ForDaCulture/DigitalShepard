@@ -1,11 +1,8 @@
-'use client';
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { Toaster } from 'react-hot-toast';
-import { ThemeProvider } from 'next-themes';
 import { Navbar } from '@/components/ui/Navbar';
+import { ClientRootProvider } from '@/components/providers/ClientRootProvider';
 import "./globals.css";
-import { UserXPProvider } from '@/lib/contexts/UserXPContext';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,23 +25,10 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body className={`${inter.className} min-h-screen bg-gray-950 text-white`}>
-        <UserXPProvider>
-          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-            <Navbar />
-            <div className="pt-16">{children}</div>
-            <Toaster
-              position="bottom-right"
-              toastOptions={{
-                className: '!bg-gray-800 !text-white',
-                style: {
-                  background: '#1f2937',
-                  color: '#fff',
-                  border: '1px solid #374151',
-                },
-              }}
-            />
-          </ThemeProvider>
-        </UserXPProvider>
+        <ClientRootProvider>
+          <Navbar />
+          <div className="pt-16">{children}</div>
+        </ClientRootProvider>
       </body>
     </html>
   );
