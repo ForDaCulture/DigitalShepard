@@ -109,7 +109,7 @@ export function CyberTips({ event, sessionData }: { event?: string; sessionData?
 
       {/* Badges Section */}
       <div className="flex gap-2 flex-wrap">
-        {userXP.badges.map(badge => (
+        {userXP.badges.map((badge: { id: string; name: string; icon: string }) => (
           <Badge
             key={badge.id}
             variant="default"

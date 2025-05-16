@@ -6,21 +6,28 @@ from .middleware.session import setup_session_middleware
 from prometheus_client import make_asgi_app
 import sentry_sdk
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
+from .core.settings import get_settings
+
+# Initialize settings
+settings = get_settings()
 
 app = FastAPI(
-    title="Digital Shepherd API",
+    title=settings.PROJECT_NAME,
     description="Cybersecurity monitoring and education platform",
     version="1.0.0"
 )
+
+# Store settings in app state
+app.state.settings = settings
 
 # Setup monitoring
 metrics_app = make_asgi_app()
 app.mount("/metrics", metrics_app)
 
 # Initialize Sentry (if SENTRY_DSN is set)
-if sentry_dsn := app.state.settings.SENTRY_DSN:
+if settings.SENTRY_DSN:
     sentry_sdk.init(
-        dsn=sentry_dsn,
+        dsn=settings.SENTRY_DSN,
         traces_sample_rate=0.1,
         profiles_sample_rate=0.1,
     )
@@ -29,7 +36,7 @@ if sentry_dsn := app.state.settings.SENTRY_DSN:
 # Setup CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Add production origins
+    allow_origins=settings.BACKEND_CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -38,16 +45,16 @@ app.add_middleware(
 # Setup rate limiting
 limiter = setup_rate_limiter(app)
 
-# Setup session timeout (15 minutes)
-setup_session_middleware(app, timeout_minutes=15)
+# Setup session timeout
+setup_session_middleware(app, timeout_minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
 
 # Include API routes
-app.include_router(api_router, prefix="/api/v1")
+app.include_router(api_router, prefix=settings.API_V1_STR)
 
 @app.get("/")
 async def root():
     return {
-        "message": "Welcome to Digital Shepherd API",
+        "message": f"Welcome to {settings.PROJECT_NAME}",
         "version": "1.0.0",
         "docs_url": "/docs"
     }

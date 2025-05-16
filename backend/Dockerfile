@@ -29,9 +29,11 @@ COPY . .
 FROM python:3.12.8-slim AS production
 WORKDIR /app
 
-# Only need the Postgres client at runtime
+# Install runtime dependencies
 RUN apt-get update \
- && apt-get install -y --no-install-recommends libpq-dev \
+ && apt-get install -y --no-install-recommends \
+    libpq-dev \
+    curl \
  && rm -rf /var/lib/apt/lists/*
 
 # Copy installed packages & app code from builder
@@ -45,4 +47,4 @@ USER appuser
 
 # Expose and run
 EXPOSE 8000
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["python", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
